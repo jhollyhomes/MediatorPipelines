@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using FluentValidation;
+using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using Mms.Pipelines;
 
@@ -14,9 +15,11 @@ public static class MediatorHelpers
             cfg.RegisterServicesFromAssembly(typeof(PipelineTests).Assembly);
         });
 
+        services.AddValidatorsFromAssembly(typeof(PipelineTests).Assembly);
+
         services.AddLogging();
 
-        //services.AddTransient(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>));
+        services.AddTransient(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>));
         services.AddTransient(typeof(IPipelineBehavior<,>), typeof(AuthorisationBehavior<,>));
         services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
 

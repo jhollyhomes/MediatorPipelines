@@ -1,17 +1,15 @@
 ﻿using MediatR;
+using Pipelines.Results;
+using Pipelines.Results.Results;
 using Pipelines.Tests.Dtos;
 
 namespace Pipelines.Tests.Commands;
-public class AddUserCommandHandler :IRequestHandler<AddUserCommand, User>
+public class AddUserCommandHandler :IRequestHandler<AddUserCommand, IPipelineResult>
 {
-
-    public Task<User> Handle(AddUserCommand request, CancellationToken cancellationToken)
+    public async Task<IPipelineResult> Handle(AddUserCommand request, CancellationToken cancellationToken)
     {
+        User user = new(request.FirstName, request.LastName);
 
-
-
-        var user = new User(request.FirstName, request.LastName);
-
-        return Task.FromResult(user);
+        return await Task.FromResult(new SuccessResult(user));
     }
 }

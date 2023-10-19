@@ -1,10 +1,12 @@
 ﻿using MediatR;
+using Pipelines.Results;
 
 namespace Mms.Pipelines;
-public class AuthorisationBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
-    where TRequest : IRequest<TResponse>
+public class AuthorisationBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, IPipelineResult>
+    where TRequest : IRequest<IPipelineResult>
+    where TResponse : IPipelineResult
 {
-    public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
+    public async Task<IPipelineResult> Handle(TRequest request, RequestHandlerDelegate<IPipelineResult> next, CancellationToken cancellationToken)
     {
         var response = await next();
 

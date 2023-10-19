@@ -1,9 +1,9 @@
 ﻿using MediatR;
-using Pipelines.Tests.Dtos;
+using Pipelines.Results;
 
 namespace Pipelines.Tests.Commands;
 
-public class AddUserCommand : IRequest<User>
+public class AddUserCommand : IRequest<IPipelineResult>
 {
     public AddUserCommand(string firstName, string lastName)
     {

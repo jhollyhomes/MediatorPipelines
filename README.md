@@ -1,4 +1,7 @@
 # MediatorPipelines
 Implementation of Mediatr using pipelines
 
-### Used Shouldy for tests
+### Validation pipeline
+
+- Created Mediator pipelines for logging, authorisation, validation
+- Tests validation pipeline
