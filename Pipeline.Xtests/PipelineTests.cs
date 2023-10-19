@@ -14,6 +14,8 @@ public class PipelineTests
         var response = await mediatr.Send(new AddUserCommand("Jimmy", "Starbucks"));
 
         response.IsSuccess.ShouldBeTrue();
+        response.IsError.ShouldBeFalse();
+        response.IsValidationFailure.ShouldBeFalse();
 
         var result = (User)response.Data;
 
@@ -24,13 +26,18 @@ public class PipelineTests
             );
     }
 
-    [Fact]
-    public async Task GivenNewUser_WhenNotValid_ThenReturnValidationFailureResult()
+    [Theory]
+    [InlineData("", "")]
+    [InlineData("Jimmy", "")]
+    [InlineData("", "Starbucks")]
+    public async Task GivenNewUser_WhenNotValid_ThenReturnValidationFailureResult(string firstName, string lastName)
     {
         var mediatr = MediatorHelpers.BuildMediator();
-        var response = await mediatr.Send(new AddUserCommand("", "Starbucks"));
+        var response = await mediatr.Send(new AddUserCommand(firstName, lastName));
 
         response.IsValidationFailure.ShouldBeTrue();
-        response.Errors.Count.ShouldBe(1);
+        response.IsError.ShouldBeFalse();
+        response.IsSuccess.ShouldBeFalse();
+        response.Errors.Count.ShouldBeGreaterThan(0);
     }
 }
