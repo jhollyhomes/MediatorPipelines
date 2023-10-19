@@ -1,5 +1,4 @@
 ﻿using FluentValidation;
-using Pipeline.Xtests.Commands;
 
 namespace Pipeline.Xtests.Commands;
 public class AddUserCommandValidator : AbstractValidator<AddUserCommand>

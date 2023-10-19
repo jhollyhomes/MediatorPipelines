@@ -1,11 +1,14 @@
 ﻿namespace Pipelines.Results.Results;
-public class ValidtionFailureResult : IPipelineResult
+public class AuthorisationFailureResult : IPipelineResult
 {
-    public ValidtionFailureResult(List<string> errors)
+    public AuthorisationFailureResult(string failureMessage)
     {
-        Data = errors;
-        Errors = errors;
-        IsValidationFailure = true;
+        Data = "";
+        Errors = new List<string>
+        {
+            failureMessage
+        };
+        IsAuthorisationFailure = true;
     }
     public bool IsSuccess { get; }
     public bool IsError { get; }

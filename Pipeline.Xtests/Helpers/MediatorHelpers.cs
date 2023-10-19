@@ -2,6 +2,8 @@
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using Mms.Pipelines;
+using Pipeline.Xtests.Commands;
+using Pipelines;
 
 namespace Pipeline.Xtests.Helpers;
 public static class MediatorHelpers
@@ -12,16 +14,19 @@ public static class MediatorHelpers
 
         services.AddMediatR(cfg =>
         {
-            cfg.RegisterServicesFromAssembly(typeof(PipelineTests).Assembly);
+            cfg.RegisterServicesFromAssembly(typeof(AddUserCommand).Assembly);
         });
 
-        services.AddValidatorsFromAssembly(typeof(PipelineTests).Assembly);
+        services.AddTransient(typeof(IPipelineBehavior<,>), typeof(AuthorisationBehavior<,>));
+        services.AddTransient(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>));        
+        services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
+
+        services.Scan(scan => scan
+            .FromAssembliesOf(typeof(AddUserCommand))
+            .AddClasses()
+            .AsImplementedInterfaces());
 
         services.AddLogging();
-
-        services.AddTransient(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>));
-        services.AddTransient(typeof(IPipelineBehavior<,>), typeof(AuthorisationBehavior<,>));
-        services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
 
         var provider = services.BuildServiceProvider();
 
