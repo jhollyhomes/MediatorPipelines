@@ -1,7 +1,6 @@
 ﻿using FluentValidation;
 using MediatR;
 using Pipelines.Results;
-using Pipelines.Results.Results;
 
 namespace Mms.Pipelines;
 public class ValidationBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, IPipelineResult>

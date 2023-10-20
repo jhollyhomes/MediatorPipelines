@@ -1,4 +1,4 @@
-﻿namespace Pipelines.Results.Results;
+﻿namespace Pipelines.Results;
 public class SuccessResult : IPipelineResult
 {
     public SuccessResult()

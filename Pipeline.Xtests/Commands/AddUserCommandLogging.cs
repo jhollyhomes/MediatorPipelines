@@ -1,7 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using Pipelines;
 using Pipelines.Results;
-using Pipelines.Results.Results;
 
 namespace Pipeline.Xtests.Commands;
 public class AddUserCommandLogging : ILogHandler<AddUserCommand, IPipelineResult>

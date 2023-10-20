@@ -1,7 +1,6 @@
 ﻿using MediatR;
 using Pipeline.Xtests.Dtos;
 using Pipelines.Results;
-using Pipelines.Results.Results;
 
 namespace Pipeline.Xtests.Commands;
 public class AddUserCommandHandler :IRequestHandler<AddUserCommand, IPipelineResult>

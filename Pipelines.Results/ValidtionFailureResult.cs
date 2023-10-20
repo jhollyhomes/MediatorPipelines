@@ -1,4 +1,4 @@
-﻿namespace Pipelines.Results.Results;
+﻿namespace Pipelines.Results;
 public class ValidtionFailureResult : IPipelineResult
 {
     public ValidtionFailureResult(List<string> errors)

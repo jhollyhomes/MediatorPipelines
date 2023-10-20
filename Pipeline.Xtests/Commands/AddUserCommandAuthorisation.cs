@@ -1,6 +1,5 @@
 ﻿using Pipelines;
 using Pipelines.Results;
-using Pipelines.Results.Results;
 
 namespace Pipeline.Xtests.Commands;
 public class AddUserCommandAuthorisation : IAuthorisationHandler<AddUserCommand, IPipelineResult>

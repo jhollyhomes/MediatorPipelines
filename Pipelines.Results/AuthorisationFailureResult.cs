@@ -1,17 +1,15 @@
-﻿namespace Pipelines.Results.Results;
-public class ErrorResult : IPipelineResult
+﻿namespace Pipelines.Results;
+public class AuthorisationFailureResult : IPipelineResult
 {
-    public ErrorResult(Exception exception)
+    public AuthorisationFailureResult(string failureMessage)
     {
-        Data = exception;
+        Data = "";
         Errors = new List<string>
         {
-            exception.Message
+            failureMessage
         };
-
-        IsError = true;
+        IsAuthorisationFailure = true;
     }
-    
     public bool IsSuccess { get; }
     public bool IsError { get; }
     public bool IsAuthorisationFailure { get; }
