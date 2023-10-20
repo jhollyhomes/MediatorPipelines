@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using Microsoft.Extensions.DependencyInjection;
-using Mms.Pipelines;
 using Pipeline.Xtests.Commands;
+using Pipelines.Behaviours;
 
 namespace Pipeline.Xtests.Helpers;
 public static class MediatorHelpers

@@ -2,10 +2,9 @@
 using Pipelines;
 using Pipelines.Results;
 
-namespace Mms.Pipelines;
+namespace Pipelines.Behaviours;
 public class LoggingBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, IPipelineResult>
     where TRequest : IRequest<IPipelineResult>
-    where TResponse : IPipelineResult
 {
     private readonly IEnumerable<ILogHandler<TRequest, IPipelineResult>> _logHandlers;
 

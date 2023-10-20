@@ -1,11 +1,9 @@
 ﻿using MediatR;
-using Pipelines;
 using Pipelines.Results;
 
-namespace Mms.Pipelines;
+namespace Pipelines.Behaviours;
 public class AuthorisationBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, IPipelineResult>
     where TRequest : IRequest<IPipelineResult>
-    where TResponse : IPipelineResult
 {
     private readonly IEnumerable<IAuthorisationHandler<TRequest, IPipelineResult>> _authorisationHandlers;
 
@@ -27,5 +25,5 @@ public class AuthorisationBehavior<TRequest, TResponse> : IPipelineBehavior<TReq
         }
 
         return await next();
-    } 
+    }
 }
