@@ -45,10 +45,24 @@ public class PipelineTests
     }
 
     [Fact]
-    public async Task GivenNewUser_WhenNotAuthorised_ThenReturnAuthorisationFailureResult()
+    public async Task GivenNewUser_WhenNotAuthorisedAndValid_ThenReturnAuthorisationFailureResult()
     {
         var mediatr = MediatorHelpers.BuildMediator();
         var response = await mediatr.Send(new AddUserCommand("Jimmy", "Starbucks", "badusername"));
+
+        response.IsAuthorisationFailure.ShouldBeTrue();
+        response.IsSuccess.ShouldBeFalse();
+        response.IsError.ShouldBeFalse();
+        response.IsValidationFailure.ShouldBeFalse();
+
+        response.Errors.Count.ShouldBeGreaterThan(0);
+    }
+
+    [Fact]
+    public async Task GivenNewUser_WhenNotAuthorisedAndNotValid_ThenReturnAuthorisationFailureResult()
+    {
+        var mediatr = MediatorHelpers.BuildMediator();
+        var response = await mediatr.Send(new AddUserCommand("", "Starbucks", "badusername"));
 
         response.IsAuthorisationFailure.ShouldBeTrue();
         response.IsSuccess.ShouldBeFalse();

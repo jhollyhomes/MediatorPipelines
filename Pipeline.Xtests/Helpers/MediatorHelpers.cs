@@ -1,9 +1,7 @@
-﻿using FluentValidation;
-using MediatR;
+﻿using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using Mms.Pipelines;
 using Pipeline.Xtests.Commands;
-using Pipelines;
 
 namespace Pipeline.Xtests.Helpers;
 public static class MediatorHelpers
