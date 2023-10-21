@@ -1,6 +1,8 @@
-﻿using MediatR;
+﻿using FluentValidation;
+using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using Pipeline.Xtests.Commands;
+using Pipelines;
 using Pipelines.Behaviours;
 
 namespace Pipeline.Xtests.Helpers;
@@ -19,10 +21,10 @@ public static class MediatorHelpers
         services.AddTransient(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>));        
         services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
 
-        services.Scan(scan => scan
-            .FromAssembliesOf(typeof(AddUserCommand))
-            .AddClasses()
-            .AsImplementedInterfaces());
+        services.AddTransient(typeof(ILogHandler<,>), typeof(AddUserCommandLogging<,>));
+        services.AddTransient(typeof(IAuthorisationHandler<,>), typeof(AddUserCommandAuthorisation<,>));
+
+        services.AddValidatorsFromAssembly(typeof(AddUserCommandValidator).Assembly);
 
         services.AddLogging();
 

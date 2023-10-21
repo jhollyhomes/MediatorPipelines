@@ -3,11 +3,11 @@ using Pipelines;
 using Pipelines.Results;
 
 namespace Pipeline.Xtests.Commands;
-public class AddUserCommandLogging : ILogHandler<AddUserCommand, IPipelineResult>
+public class AddUserCommandLogging<TRequest, TResponse> : ILogHandler<AddUserCommand, IPipelineResult>
 {
-    private readonly ILogger<AddUserCommandLogging> _logger;
+    private readonly ILogger<AddUserCommandLogging<TRequest, TResponse>> _logger;
 
-    public AddUserCommandLogging(ILogger<AddUserCommandLogging> logger)
+    public AddUserCommandLogging(ILogger<AddUserCommandLogging<TRequest, TResponse>> logger)
     {
         _logger = logger;
     }

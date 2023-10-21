@@ -3,7 +3,7 @@ using Pipeline.Xtests.Dtos;
 using Pipelines.Results;
 
 namespace Pipeline.Xtests.Commands;
-public class AddUserCommandHandler :IRequestHandler<AddUserCommand, IPipelineResult>
+public class AddUserCommandHandler : IRequestHandler<AddUserCommand, IPipelineResult>
 {
     public async Task<IPipelineResult> Handle(AddUserCommand request, CancellationToken cancellationToken)
     {

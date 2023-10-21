@@ -2,7 +2,7 @@
 using Pipelines.Results;
 
 namespace Pipeline.Xtests.Commands;
-public class AddUserCommandAuthorisation : IAuthorisationHandler<AddUserCommand, IPipelineResult>
+public class AddUserCommandAuthorisation<TRequest, TResponse> : IAuthorisationHandler<AddUserCommand, IPipelineResult>
 {
     public async Task<IPipelineResult> Handle(AddUserCommand request, CancellationToken cancellationToken)
     {
