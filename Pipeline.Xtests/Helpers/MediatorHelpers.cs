@@ -1,5 +1,4 @@
-﻿using FluentValidation;
-using MediatR;
+﻿using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using Pipeline.Xtests.Commands;
 using Pipelines;
@@ -12,19 +11,19 @@ public static class MediatorHelpers
     {
         var services = new ServiceCollection();
 
-        services.AddMediatR(cfg =>
-        {
-            cfg.RegisterServicesFromAssembly(typeof(AddUserCommand).Assembly);
-        });
-
-        services.AddTransient(typeof(IPipelineBehavior<,>), typeof(AuthorisationBehavior<,>));
-        services.AddTransient(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>));        
-        services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
-
-        services.AddTransient(typeof(ILogHandler<,>), typeof(AddUserCommandLogging<,>));
-        services.AddTransient(typeof(IAuthorisationHandler<,>), typeof(AddUserCommandAuthorisation<,>));
-
-        services.AddValidatorsFromAssembly(typeof(AddUserCommandValidator).Assembly);
+        services.Scan(scan => scan
+                .FromApplicationDependencies()
+                .AddClasses(x => x.AssignableTo(typeof(ILogHandler<,>))).AsImplementedInterfaces()
+                .AddClasses(x => x.AssignableTo(typeof(IAuthorisationHandler<,>))).AsImplementedInterfaces()
+                .AddClasses(x => x.AssignableTo(typeof(IValidationHandler<,>))).AsImplementedInterfaces()
+                )
+                .AddMediatR(cfg =>
+                {
+                    cfg.RegisterServicesFromAssembly(typeof(AddUserCommandHandler).Assembly);
+                })
+                .AddTransient(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>))
+                .AddTransient(typeof(IPipelineBehavior<,>), typeof(AuthorisationBehavior<,>))
+                .AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
 
         services.AddLogging();
 

@@ -1,7 +1,7 @@
 ﻿namespace Pipelines.Results;
-public class ValidtionFailureResult : IPipelineResult
+public class ValidationFailureResult : IPipelineResult
 {
-    public ValidtionFailureResult(List<string> errors)
+    public ValidationFailureResult(List<string> errors)
     {
         Data = errors;
         Errors = errors;

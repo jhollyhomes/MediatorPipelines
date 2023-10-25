@@ -1,34 +1,27 @@
-﻿using FluentValidation;
-using MediatR;
+﻿using MediatR;
 using Pipelines.Results;
 
 namespace Pipelines.Behaviours;
 public class ValidationBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, IPipelineResult>
-    where TRequest : IRequest<IPipelineResult>
+    where TRequest : IRequest<TResponse>
+    where TResponse : IPipelineResult
 {
-    private readonly IEnumerable<IValidator<TRequest>> _validators;
+    private readonly IEnumerable<IValidationHandler<TRequest, TResponse>> _validators;
 
-    public ValidationBehavior(IEnumerable<IValidator<TRequest>> validators)
-        => _validators = validators;
+    public ValidationBehavior(IEnumerable<IValidationHandler<TRequest, TResponse>> validators)
+    {
+        _validators = validators;
+    }
 
     public async Task<IPipelineResult> Handle(TRequest request,
                                  RequestHandlerDelegate<IPipelineResult> next,
                                  CancellationToken cancellationToken)
     {
-        if (_validators.Any())
+        foreach (var validator in _validators)
         {
-            var failures = _validators
-                .Select(v => v.Validate(request))
-                .SelectMany(result => result.Errors)
-                .Where(f => f != null)
-                .ToList();
+            var validationResult = await validator.Validate(request, cancellationToken);
 
-            var messages = failures.Select(x => x.ErrorMessage).ToList();
-
-            if (failures.Count != 0)
-            {
-                return new ValidtionFailureResult(messages);
-            }
+            if (!validationResult.IsSuccess) return validationResult;
         }
 
         return await next();
